@@ -5,7 +5,7 @@ import { UserModule } from "./modules/user/user.module";
 
 import { MongooseModule } from "@nestjs/mongoose";
 import { LoggerMiddleware } from "./common/middleware/logger.middleware";
-import { AuthModule } from "./auth/auth.module";
+import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
   imports: [

@@ -1,7 +1,7 @@
 import { Module, MiddlewareConsumer, RequestMethod } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { UserModule } from "./user/user.module";
+import { UserModule } from "./modules/user/user.module";
 
 import { MongooseModule } from "@nestjs/mongoose";
 import { LoggerMiddleware } from "./common/middleware/logger.middleware";

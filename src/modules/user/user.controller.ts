@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   Headers,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiOperation,
@@ -17,12 +18,15 @@ import {
   ApiResponse,
   ApiHeaders,
 } from "@nestjs/swagger";
+import { RolesGuard } from "../../common/guards/roles.guard";
+import { Roles } from "../../common/decorators/roles.decorators";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
 
 @Controller("user")
+@UseGuards(RolesGuard)
 @ApiTags("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -31,6 +35,7 @@ export class UserController {
   @ApiOperation({ summary: "用户登录", description: "用户登录" })
   @ApiBody({ type: LoginUserDto })
   @ApiResponse({ status: 200, description: "用户登录成功返回200" })
+  @Roles()
   login(@Body() loginRes: LoginUserDto) {
     return this.userService.login(loginRes);
   }

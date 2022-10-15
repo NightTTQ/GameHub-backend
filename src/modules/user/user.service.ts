@@ -6,7 +6,7 @@ import { HttpException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { AuthService } from "../auth/auth.service";
+import { AuthService } from "../../auth/auth.service";
 
 import { compare, genSalt, hash } from "bcryptjs";
 
@@ -58,7 +58,12 @@ export class UserService {
 
   async refreshToken(headers: any) {
     try {
-    } catch (error) {}
+      const { refreshtoken } = headers;
+      const payload = this.authService.verifyToken(refreshtoken);
+      
+    } catch (error) {
+      throw new HttpException(error, 400);
+    }
   }
 
   // async findAll(): Promise<User[]> {

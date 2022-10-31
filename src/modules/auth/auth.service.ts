@@ -68,13 +68,44 @@ export class AuthService {
    */
   verifyToken(req: TypeRequest, res: TypeResponse): any {
     const { token, refreshToken } = req.cookies;
-    const result: tokenPayload = this.jwtService.verify(token, {
-      publicKey: jwtConstants.cert,
-      algorithms: ["RS256"],
-      ignoreExpiration: true,
-    });
-    if (result.exp < Date.now()) {
-      // token过期，尝试使用refreshToken刷新
+    if (token) {
+      const result: tokenPayload = this.jwtService.verify(token, {
+        publicKey: jwtConstants.cert,
+        algorithms: ["RS256"],
+        ignoreExpiration: true,
+      });
+      if (result.exp < Date.now()) {
+        // token过期，尝试使用refreshToken刷新
+        try {
+          const result: refreshTokenPayload = this.jwtService.verify(
+            refreshToken,
+            {
+              publicKey: jwtConstants.cert,
+              algorithms: ["RS256"],
+            }
+          );
+          const token = this.generateToken(result._id);
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60,
+          });
+          // refreshToken有效期过半则同时续期refreshToken
+          if (result.exp - Date.now() < (result.exp - result.iat) / 2) {
+            const refreshToken = this.generateRefreshToken(result._id);
+            res.cookie("refreshToken", refreshToken, {
+              httpOnly: true,
+              secure: true,
+              maxAge: 1000 * 60 * 60 * 24 * 7,
+            });
+          }
+          return this.jwtService.decode(token);
+        } catch (err) {
+          throw err;
+        }
+      } else return result;
+    } else {
+      // token不存在，使用refreshToken刷新
       try {
         const result: refreshTokenPayload = this.jwtService.verify(
           refreshToken,
@@ -102,6 +133,6 @@ export class AuthService {
       } catch (err) {
         throw err;
       }
-    } else return result;
+    }
   }
 }

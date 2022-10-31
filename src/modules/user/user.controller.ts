@@ -54,7 +54,7 @@ export class UserController {
   // }
 
   @Get("info")
-  @UseGuards(AuthGuard("jwt"))
+  // @UseGuards(AuthGuard("jwt"))
   @ApiOperation({ summary: "获取用户信息", description: "获取用户信息" })
   @ApiResponse({ status: 200, description: "成功获取用户信息返回200" })
   info(@Request() req: TypeRequest, @Response() res: TypeResponse) {

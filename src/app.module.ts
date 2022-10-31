@@ -9,10 +9,10 @@ import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
   imports: [
-    UserModule,
     MongooseModule.forRoot(
       `${process.env.NEST_MONGODB_URL || "mongodb://127.0.0.1:27017"}/gamehub`
     ),
+    UserModule,
     AuthModule,
   ],
   controllers: [AppController],

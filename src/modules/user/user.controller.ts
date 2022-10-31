@@ -8,8 +8,11 @@ import {
   Delete,
   HttpException,
   Headers,
+  Request,
+  Response,
   UseGuards,
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import {
   ApiOperation,
   ApiTags,
@@ -24,6 +27,7 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
+import { Request as TypeRequest, Response as TypeResponse } from "express";
 
 @Controller("user")
 @UseGuards(RolesGuard)
@@ -35,39 +39,27 @@ export class UserController {
   @ApiOperation({ summary: "用户登录", description: "用户登录" })
   @ApiBody({ type: LoginUserDto })
   @ApiResponse({ status: 200, description: "用户登录成功返回200" })
+  @UseGuards(AuthGuard("local"))
   @Roles()
-  login(@Body() loginRes: LoginUserDto) {
-    return this.userService.login(loginRes);
+  login(@Body() loginRes: LoginUserDto, @Response() res: TypeResponse) {
+    return this.userService.login(loginRes, res);
   }
 
-  @Post("register")
-  @ApiOperation({ summary: "用户注册", description: "用户注册" })
-  @ApiBody({ type: CreateUserDto })
-  @ApiResponse({ status: 200, description: "用户创建成功返回200" })
-  create(@Body() createRes: CreateUserDto) {
-    return this.userService.create(createRes);
-  }
+  // @Post("register")
+  // @ApiOperation({ summary: "用户注册", description: "用户注册" })
+  // @ApiBody({ type: CreateUserDto })
+  // @ApiResponse({ status: 200, description: "用户创建成功返回200" })
+  // create(@Body() createRes: CreateUserDto) {
+  //   return this.userService.create(createRes);
+  // }
 
   @Get("info")
+  @UseGuards(AuthGuard("jwt"))
   @ApiOperation({ summary: "获取用户信息", description: "获取用户信息" })
-  @ApiHeaders([{ name: "token", description: "需要获取信息的用户token" }])
   @ApiResponse({ status: 200, description: "成功获取用户信息返回200" })
-  info(@Headers() headers: any) {
-    return this.userService.info(headers);
+  info(@Request() req: TypeRequest, @Response() res: TypeResponse) {
+    return this.userService.info(req, res);
   }
-
-  @Get("refreshToken")
-  @ApiOperation({
-    summary: "获取新token",
-    description: "使用refreshToken获取新token",
-  })
-  @ApiHeaders([{ name: "refreshToken", description: "用户的refreshToken" }])
-  @ApiResponse({ status: 200, description: "成功获取新token返回200" })
-  refreshToken(@Headers() headers: any) {}
-  // @Get()
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
 
   // @Get(":id")
   // findOne(@Param("id") id: string) {

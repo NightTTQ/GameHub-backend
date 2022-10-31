@@ -1,25 +1,27 @@
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Response } from "@nestjs/common";
+import { Request as TypeRequest, Response as TypeResponse } from "express";
 import { jwtConstants } from "./constants";
+import { User } from "../user/user.schema";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: jwtConstants.key,
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: TypeRequest): string | null => {
+          return request.cookies["token"] || null;
+        },
+      ]),
+      ignoreExpiration: true,
+      secretOrKey: jwtConstants.cert,
     });
   }
-  // JWT验证-step 4：被守卫调用
-  async validate(payload: any) {
-    console.log(`JWT验证-step 4：被守卫调用`);
-    return {
-      userId: payload.sub,
-      username: payload.username,
-      realName: payload.realName,
-      role: payload.role,
-    };
+
+  async validate(payload: any): Promise<User | null> {
+    // TODO:检查token有效期，过期则再判断refreshToken进行双token刷新
+    return payload;
   }
 }

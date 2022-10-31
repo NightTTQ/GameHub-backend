@@ -1,9 +1,14 @@
+// Core Packages
 import { Module } from "@nestjs/common";
-import { UserService } from "./user.service";
-import { UserController } from "./user.controller";
+
+// NPM Packages
 import { MongooseModule } from "@nestjs/mongoose";
-import { AuthModule } from "../auth/auth.module";
+
+// Custom Packages
+import { UserController } from "./user.controller";
+import { UserService } from "./user.service";
 import { UserSchema } from "./user.schema";
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
   imports: [
@@ -12,5 +17,6 @@ import { UserSchema } from "./user.schema";
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

@@ -13,6 +13,7 @@ specifiers:
   '@nestjs/swagger': ^6.1.2
   '@nestjs/testing': ^9.0.0
   '@types/bcryptjs': ^2.4.2
+  '@types/cookie-parser': ^1.4.3
   '@types/express': ^4.17.13
   '@types/jest': 28.1.4
   '@types/node': ^16.0.0
@@ -22,6 +23,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
   bcryptjs: ^2.4.2
+  cookie-parser: ^1.4.6
   dayjs: ^1.11.5
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
@@ -30,6 +32,7 @@ specifiers:
   mongoose: ^6.5.2
   passport: ^0.6.0
   passport-jwt: ^4.0.0
+  passport-local: ^1.0.0
   prettier: ^2.3.2
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
@@ -52,10 +55,12 @@ dependencies:
   '@nestjs/platform-express': registry.npmmirror.com/@nestjs/platform-express/9.0.11_khr6mt6ojlxbw7bo55fknouh34
   '@nestjs/swagger': registry.npmmirror.com/@nestjs/swagger/6.1.2_fvppslgepxggj3fnmtlnh4cori
   bcryptjs: registry.npmmirror.com/bcryptjs/2.4.3
+  cookie-parser: registry.npmmirror.com/cookie-parser/1.4.6
   dayjs: registry.npmmirror.com/dayjs/1.11.5
   mongoose: registry.npmmirror.com/mongoose/6.5.3
   passport: registry.npmmirror.com/passport/0.6.0
   passport-jwt: registry.npmmirror.com/passport-jwt/4.0.0
+  passport-local: registry.npmmirror.com/passport-local/1.0.0
   reflect-metadata: registry.npmmirror.com/reflect-metadata/0.1.13
   rimraf: registry.npmmirror.com/rimraf/3.0.2
   rxjs: registry.npmmirror.com/rxjs/7.5.6
@@ -65,6 +70,7 @@ devDependencies:
   '@nestjs/schematics': registry.npmmirror.com/@nestjs/schematics/9.0.1_typescript@4.7.4
   '@nestjs/testing': registry.npmmirror.com/@nestjs/testing/9.0.11_z6gh3n3qpn6ig2eqi2q57zofvq
   '@types/bcryptjs': registry.npmmirror.com/@types/bcryptjs/2.4.2
+  '@types/cookie-parser': registry.npmmirror.com/@types/cookie-parser/1.4.3
   '@types/express': registry.npmmirror.com/@types/express/4.17.13
   '@types/jest': registry.npmmirror.com/@types/jest/28.1.4
   '@types/node': registry.npmmirror.com/@types/node/16.11.56
@@ -1397,6 +1403,14 @@ packages:
       '@types/node': registry.npmmirror.com/@types/node/16.11.56
     dev: true
 
+  registry.npmmirror.com/@types/cookie-parser/1.4.3:
+    resolution: {integrity: sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/cookie-parser/-/cookie-parser-1.4.3.tgz}
+    name: '@types/cookie-parser'
+    version: 1.4.3
+    dependencies:
+      '@types/express': registry.npmmirror.com/@types/express/4.17.13
+    dev: true
+
   registry.npmmirror.com/@types/cookiejar/2.1.2:
     resolution: {integrity: sha512-t73xJJrvdTjXrn4jLS9VSGRbz0nUY3cl2DMGDU48lKl+HR9dbbjW2A9r3g40VA++mQpy6uuHg33gy7du2BKpog==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/cookiejar/-/cookiejar-2.1.2.tgz}
     name: '@types/cookiejar'
@@ -2624,10 +2638,27 @@ packages:
       safe-buffer: registry.npmmirror.com/safe-buffer/5.1.2
     dev: true
 
+  registry.npmmirror.com/cookie-parser/1.4.6:
+    resolution: {integrity: sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cookie-parser/-/cookie-parser-1.4.6.tgz}
+    name: cookie-parser
+    version: 1.4.6
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      cookie: registry.npmmirror.com/cookie/0.4.1
+      cookie-signature: registry.npmmirror.com/cookie-signature/1.0.6
+    dev: false
+
   registry.npmmirror.com/cookie-signature/1.0.6:
     resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cookie-signature/-/cookie-signature-1.0.6.tgz}
     name: cookie-signature
     version: 1.0.6
+
+  registry.npmmirror.com/cookie/0.4.1:
+    resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cookie/-/cookie-0.4.1.tgz}
+    name: cookie
+    version: 0.4.1
+    engines: {node: '>= 0.6'}
+    dev: false
 
   registry.npmmirror.com/cookie/0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cookie/-/cookie-0.5.0.tgz}
@@ -5151,6 +5182,15 @@ packages:
     version: 4.0.0
     dependencies:
       jsonwebtoken: registry.npmmirror.com/jsonwebtoken/8.5.1
+      passport-strategy: registry.npmmirror.com/passport-strategy/1.0.0
+    dev: false
+
+  registry.npmmirror.com/passport-local/1.0.0:
+    resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/passport-local/-/passport-local-1.0.0.tgz}
+    name: passport-local
+    version: 1.0.0
+    engines: {node: '>= 0.4.0'}
+    dependencies:
       passport-strategy: registry.npmmirror.com/passport-strategy/1.0.0
     dev: false
 

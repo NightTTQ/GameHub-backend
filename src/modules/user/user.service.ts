@@ -76,6 +76,15 @@ export class UserService {
     }
   }
 
+  async logout(res: Response) {
+    res.cookie("token", "", { maxAge: 0 });
+    res.cookie("refreshToken", "", { maxAge: 0 });
+    res.send({
+      code: 200,
+      message: "success",
+    });
+  }
+
   // async findAll(): Promise<User[]> {
   //   return await this.userModel.find().exec();
   //   // return `This action returns all user`;

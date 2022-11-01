@@ -61,6 +61,16 @@ export class UserController {
     return this.userService.info(req, res);
   }
 
+  @Get("logout")
+  @ApiOperation({
+    summary: "退出登录状态",
+    description: "退出登录状态清空token",
+  })
+  @ApiResponse({ status: 200, description: "成功退出返回200" })
+  logout(@Response() res: TypeResponse) {
+    return this.userService.logout(res);
+  }
+
   // @Get(":id")
   // findOne(@Param("id") id: string) {
   //   return this.userService.findOne(id);

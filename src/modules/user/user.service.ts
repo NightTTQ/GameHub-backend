@@ -46,21 +46,21 @@ export class UserService {
     } else throw new HttpException({ message: "password error" }, 401);
   }
 
-  // async create(createRes: CreateUserDto) {
-  //   try {
-  //     const password = createRes.password;
-  //     createRes.password = await hash(createRes.password, await genSalt());
-  //     const createUser = new this.userModel(createRes);
-  //     await createUser.save();
-  //     createRes.password = password;
-  //     return this.login(createRes);
-  //   } catch (error) {
-  //     if (error.code == "11000")
-  //       throw new HttpException({ message: "Username already exists" }, 400);
-  //     throw new HttpException(error, 400);
-  //   }
-  //   // return "This action adds a new user";
-  // }
+  async create(createRes: CreateUserDto, res: Response) {
+    try {
+      const password = createRes.password;
+      createRes.password = await hash(createRes.password, await genSalt());
+      const createUser = new this.userModel(createRes);
+      await createUser.save();
+      createRes.password = password;
+      return this.login(createRes, res);
+    } catch (error) {
+      if (error.code == "11000")
+        throw new HttpException({ message: "Username already exists" }, 400);
+      throw new HttpException(error, 400);
+    }
+    // return "This action adds a new user";
+  }
 
   async info(req: Request, res: Response) {
     try {

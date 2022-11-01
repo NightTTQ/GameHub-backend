@@ -45,13 +45,13 @@ export class UserController {
     return this.userService.login(loginRes, res);
   }
 
-  // @Post("register")
-  // @ApiOperation({ summary: "用户注册", description: "用户注册" })
-  // @ApiBody({ type: CreateUserDto })
-  // @ApiResponse({ status: 200, description: "用户创建成功返回200" })
-  // create(@Body() createRes: CreateUserDto) {
-  //   return this.userService.create(createRes);
-  // }
+  @Post("register")
+  @ApiOperation({ summary: "用户注册", description: "用户注册" })
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ status: 200, description: "用户创建成功返回200" })
+  register(@Body() createRes: CreateUserDto, @Response() res: TypeResponse) {
+    return this.userService.create(createRes, res);
+  }
 
   @Get("info")
   // @UseGuards(AuthGuard("jwt"))

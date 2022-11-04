@@ -66,7 +66,7 @@ export class AuthService {
    * @param res 响应
    * @return 校验结果
    */
-  verifyToken(req: TypeRequest, res: TypeResponse): any {
+  verifyToken(req: TypeRequest, res: TypeResponse): tokenPayload | any {
     const { token, refreshToken } = req.cookies;
     if (token) {
       const result: tokenPayload = this.jwtService.verify(token, {

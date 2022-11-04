@@ -25,21 +25,21 @@ export class Game extends Document {
   @Prop()
   description: string;
   @Prop()
-  files: mongoose.Schema.Types.Array;
+  files: object[];
   @Prop()
-  links: mongoose.Schema.Types.Array;
+  links: object[];
   @Prop()
-  images: mongoose.Schema.Types.Array;
+  images: object[];
   @Prop()
   about: string;
   @Prop({ required: true })
   user: string;
   @Prop()
-  editor: mongoose.Schema.Types.Array;
+  editor: string[];
   @Prop()
   releaseDate: Date;
   @Prop()
-  videos: mongoose.Schema.Types.Array;
+  videos: object[];
   @Prop({ required: true, default: false })
   visible: boolean;
   @Prop({ required: true, default: new Date() })

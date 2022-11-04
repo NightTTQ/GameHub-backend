@@ -1,6 +1,7 @@
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "./user.schema";
+import { GameDocument } from "../game/game.schema";
 import { Injectable, HttpException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
@@ -15,6 +16,7 @@ import { compare, genSalt, hash } from "bcryptjs";
 export class UserService {
   constructor(
     @InjectModel("User") private readonly userModel: Model<UserDocument>,
+    @InjectModel("Game") private readonly gameModel: Model<GameDocument>,
     private readonly authService: AuthService
   ) {}
 
@@ -83,6 +85,46 @@ export class UserService {
       code: 200,
       message: "success",
     });
+  }
+
+  async findUserGame(req: Request, res: Response) {
+    try {
+      // 通过token获取用户_id
+      const { _id } = this.authService.verifyToken(req, res);
+
+      if (req.query["id"]) {
+        // 请求指定了游戏id则取出相应的数据
+        const data = await this.gameModel
+          .findOne({ id: req.query["id"] })
+          .exec();
+        if (data.user !== _id && !data.editor.includes(_id)) {
+          // 用户无权限编辑
+          throw new HttpException("You have no permission to edit", 200);
+        } else {
+          // 用户有编辑权限正常返回
+          res.send({
+            code: 200,
+            data: data,
+            message: "success",
+          });
+        }
+      } else {
+        // 未指定游戏id则找出用户全部可编辑游戏
+        const own = await this.gameModel.find({ user: _id }).exec();
+        const edit = await this.gameModel
+          .find({
+            editor: new RegExp(_id, "gi"),
+          })
+          .exec();
+        res.send({
+          code: 200,
+          data: { own: own, editor: edit },
+          message: "success",
+        });
+      }
+    } catch (error) {
+      throw new HttpException(error, 200);
+    }
   }
 
   // async findAll(): Promise<User[]> {

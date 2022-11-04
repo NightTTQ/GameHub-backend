@@ -6,6 +6,7 @@ import { UserModule } from "./modules/user/user.module";
 import { MongooseModule } from "@nestjs/mongoose";
 import { LoggerMiddleware } from "./common/middleware/logger.middleware";
 import { AuthModule } from "./modules/auth/auth.module";
+import { GameModule } from "./modules/game/game.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from "./modules/auth/auth.module";
     ),
     UserModule,
     AuthModule,
+    GameModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,7 +2,7 @@ import { Injectable, HttpException } from "@nestjs/common";
 import { jwtConstants } from "./constants";
 import { JwtService } from "@nestjs/jwt";
 import { Request as TypeRequest, Response as TypeResponse } from "express";
-import type { tokenPayload, refreshTokenPayload } from "../../types/token";
+import type { tokenPayload, refreshTokenPayload } from "./types/token";
 import { compare, genSalt, hash } from "bcryptjs";
 
 @Injectable()

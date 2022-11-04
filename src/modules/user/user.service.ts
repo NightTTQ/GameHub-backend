@@ -7,7 +7,7 @@ import { LoginUserDto } from "./dto/login-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "../auth/auth.service";
 import { Request, Response } from "express";
-import type { tokenPayload } from "../../types/token";
+import type { tokenPayload } from "../auth/types/token";
 
 import { compare, genSalt, hash } from "bcryptjs";
 

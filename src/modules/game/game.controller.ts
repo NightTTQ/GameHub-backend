@@ -27,15 +27,10 @@ export class GameController {
     return this.gameService.list(params);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.gameService.findAll();
-  // }
-
-  // @Get(":id")
-  // findOne(@Param("id") id: string) {
-  //   return this.gameService.findOne(+id);
-  // }
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.gameService.findOne(+id);
+  }
 
   // @Patch(":id")
   // update(@Param("id") id: string, @Body() updateGameDto: UpdateGameDto) {

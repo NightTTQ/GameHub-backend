@@ -17,29 +17,33 @@ export class GameService {
   }
 
   async list(params: listParams) {
-    console.log(params);
     const skip = params.skip || 0;
-    const limit = Math.min(params.limit, 200);
+    const limit = params.limit ? Math.min(params.limit, 200) : 20;
     const type = params.type ? new RegExp(params.type, "ig") : null;
-    const where: { type?: RegExp } = {};
+    const where: { type?: RegExp; visible: boolean } = { visible: true };
     if (type) where.type = type;
-    const res = await this.gameModel.find(where).skip(skip).limit(limit).exec();
+    const res = await this.gameModel
+      .find(where, {
+        name: true,
+        platform: true,
+        id: true,
+        type: true,
+        author: true,
+        cover: true,
+      })
+      .skip(skip)
+      .limit(limit)
+      .exec();
     return res;
   }
 
-  findAll() {
-    return `This action returns all game`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  async findOne(id: number) {
+    const where = { id: id, visible: true };
+    const res = await this.gameModel.findOne(where).exec();
+    return res;
   }
 
   update(id: number, updateGameDto: UpdateGameDto) {
     return `This action updates a #${id} game`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} game`;
   }
 }

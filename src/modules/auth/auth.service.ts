@@ -74,7 +74,7 @@ export class AuthService {
         algorithms: ["RS256"],
         ignoreExpiration: true,
       });
-      if (result.exp < Date.now()) {
+      if (result.exp < Date.now() / 1000) {
         // token过期，尝试使用refreshToken刷新
         try {
           const result: refreshTokenPayload = this.jwtService.verify(
@@ -91,7 +91,7 @@ export class AuthService {
             maxAge: 1000 * 60 * 60,
           });
           // refreshToken有效期过半则同时续期refreshToken
-          if (result.exp - Date.now() < (result.exp - result.iat) / 2) {
+          if (result.exp - Date.now() / 1000 < (result.exp - result.iat) / 2) {
             const refreshToken = this.generateRefreshToken(result._id);
             res.cookie("refreshToken", refreshToken, {
               httpOnly: true,

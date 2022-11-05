@@ -68,6 +68,7 @@ export class UserService {
     try {
       const payload: tokenPayload = this.authService.verifyToken(req, res);
       const user = await this.userModel.findOne({ _id: payload._id }).exec();
+      res.statusCode = 200;
       res.send({
         data: user,
         code: 200,
@@ -81,6 +82,7 @@ export class UserService {
   async logout(res: Response) {
     res.cookie("token", "", { maxAge: 0 });
     res.cookie("refreshToken", "", { maxAge: 0 });
+    res.statusCode = 200;
     res.send({
       code: 200,
       message: "success",
@@ -102,6 +104,7 @@ export class UserService {
           throw new HttpException("You have no permission to edit", 200);
         } else {
           // 用户有编辑权限正常返回
+          res.statusCode = 200;
           res.send({
             code: 200,
             data: data,
@@ -116,6 +119,7 @@ export class UserService {
             editor: new RegExp(_id, "gi"),
           })
           .exec();
+        res.statusCode = 200;
         res.send({
           code: 200,
           data: { own: own, editor: edit },

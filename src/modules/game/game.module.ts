@@ -8,9 +8,15 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { GameService } from "./game.service";
 import { GameController } from "./game.controller";
 import { GameSchema } from "./game.schema";
+import { AuthModule } from "../auth/auth.module";
+import { ConfigModule } from "../config/config.module";
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: "Game", schema: GameSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: "Game", schema: GameSchema }]),
+    AuthModule,
+    ConfigModule,
+  ],
   controllers: [GameController],
   providers: [GameService],
   exports: [GameService],

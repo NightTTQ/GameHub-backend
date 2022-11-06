@@ -7,7 +7,13 @@ import {
   Param,
   Query,
   Delete,
+  Request,
+  Response,
+  UseInterceptors,
+  UploadedFile,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { Request as TypeRequest, Response as TypeResponse } from "express";
 import { GameService } from "./game.service";
 import { CreateGameDto } from "./dto/create-game.dto";
 import { UpdateGameDto } from "./dto/update-game.dto";
@@ -17,9 +23,9 @@ import { listParams } from "./types/index";
 export class GameController {
   constructor(private readonly gameService: GameService) {}
 
-  @Post()
-  create(@Body() createGameDto: CreateGameDto) {
-    return this.gameService.create(createGameDto);
+  @Post("create")
+  create(@Request() req: TypeRequest, @Response() res: TypeResponse) {
+    return this.gameService.create(req, res);
   }
 
   @Get("list")
@@ -28,14 +34,22 @@ export class GameController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.gameService.findOne(+id);
+  findOne(
+    @Request() req: TypeRequest,
+    @Response() res: TypeResponse,
+    @Param("id") id: string
+  ) {
+    return this.gameService.show(req, res, id);
   }
 
-  // @Patch(":id")
-  // update(@Param("id") id: string, @Body() updateGameDto: UpdateGameDto) {
-  //   return this.gameService.update(+id, updateGameDto);
-  // }
+  @Patch("update/:id")
+  updateGame(
+    @Request() req: TypeRequest,
+    @Response() res: TypeResponse,
+    @Param("id") id: string
+  ) {
+    return this.gameService.updateGame(req, res, id);
+  }
 
   // @Delete(":id")
   // remove(@Param("id") id: string) {

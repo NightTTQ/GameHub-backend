@@ -4,6 +4,7 @@ import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "./common/filters/exception.filter";
 import { TransformInterceptor } from "./common/interceptor/transform.interceptor";
+require("dotenv").config({ path: ".env" });
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

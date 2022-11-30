@@ -1,4 +1,5 @@
 import { Module, MiddlewareConsumer, RequestMethod } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UserModule } from "./modules/user/user.module";
@@ -11,8 +12,15 @@ import { FileModule } from "./modules/file/file.module";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ cache: true, envFilePath: ".env", isGlobal: true }),
     MongooseModule.forRoot(
-      `${process.env.NEST_MONGODB_URL || "mongodb://127.0.0.1:27017"}/gamehub`
+      process.env.NEST_MONGODB_URL,
+      {
+        auth: {
+          username: process.env.NEST_MONGODB_USER,
+          password: process.env.NEST_MONGODB_PASS,
+        },
+      }
     ),
     UserModule,
     AuthModule,

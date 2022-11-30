@@ -29,7 +29,7 @@ export class Game extends Document {
   @Prop()
   links: object[];
   @Prop()
-  images: object[];
+  gallery: object[];
   @Prop()
   about: string;
   @Prop({ required: true })
